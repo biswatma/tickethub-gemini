@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicketHub - Resell Event Tickets</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .hero-bg-pattern {
+            background-image: radial-gradient(circle at top right, rgba(129, 140, 248, 0.2) 0%, transparent 50%),
+                              radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.2) 0%, transparent 50%);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans">
+
+    <!-- Navigation Bar -->
+    <nav x-data="{ isOpen: false }" class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center space-x-2">
+                    <svg class="h-10 w-10 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
+                    </svg>
+                    <span class="text-2xl font-bold text-indigo-600">TicketHub</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#events" class="text-slate-600 hover:text-indigo-600 transition duration-150">Browse Events</a>
+                    <a href="#sell" class="text-slate-600 hover:text-indigo-600 transition duration-150">Sell Tickets</a>
+                    <a href="#about" class="text-slate-600 hover:text-indigo-600 transition duration-150">How It Works</a>
+                    <a href="#" class="py-2 px-4 bg-slate-100 text-indigo-600 rounded-lg hover:bg-slate-200 transition duration-150">Log In</a>
+                    <a href="#" class="py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition duration-150">Sign Up</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button @click="isOpen = !isOpen" type="button" class="text-slate-500 hover:text-indigo-600 focus:outline-none focus:text-indigo-600" aria-label="toggle menu">
+                        <svg x-show="!isOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                        <svg x-show="isOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="display: none;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="isOpen" @click.away="isOpen = false" class="md:hidden" style="display: none;">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#events" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-indigo-600 hover:bg-slate-100 transition duration-150">Browse Events</a>
+                <a href="#sell" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-indigo-600 hover:bg-slate-100 transition duration-150">Sell Tickets</a>
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-indigo-600 hover:bg-slate-100 transition duration-150">How It Works</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-indigo-600 hover:bg-slate-100 transition duration-150">Log In</a>
+                <a href="#" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative hero-bg-pattern py-20 md:py-32">
+        <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 via-transparent to-purple-50 opacity-50"></div>
+        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900">
+                Your Gateway to <span class="text-indigo-600">Sold-Out Events</span>
+            </h1>
+            <p class="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto">
+                Never miss out again. Buy and sell tickets for your favorite concerts, sports, theater, and more – safely and easily.
+            </p>
+            <div class="mt-10 max-w-xl mx-auto">
+                <form class="flex flex-col sm:flex-row gap-3">
+                    <input type="search" placeholder="Search for events, artists, or venues..." class="flex-grow p-4 text-slate-700 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition duration-150" />
+                    <button type="submit" class="bg-indigo-600 text-white p-4 rounded-lg hover:bg-indigo-700 font-semibold transition duration-150 flex items-center justify-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                        <span>Search</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- Featured Events Section -->
+    <section id="events" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-slate-900 mb-12">Featured Events</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Event Card 1 -->
+                <div class="bg-slate-50 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                    <img src="https://picsum.photos/seed/concert/600/400" alt="Event Image" class="w-full h-56 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-semibold text-slate-900 mb-2">Indie Music Fest 2024</h3>
+                        <div class="flex items-center text-sm text-slate-500 mb-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-3.75h.008v.008H12v-.008z" />
+                            </svg>
+                            <span>October 26, 2024</span>
+                        </div>
+                        <div class="flex items-center text-sm text-slate-500 mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                            </svg>
+                            <span>Greenfield Park Amphitheater</span>
+                        </div>
+                        <p class="text-indigo-600 font-semibold text-lg mb-4">Tickets from $75</p>
+                        <a href="#" class="mt-auto w-full text-center bg-indigo-600 text-white py-2.5 px-4 rounded-lg hover:bg-indigo-700 transition duration-150 font-medium">View Tickets</a>
+                    </div>
+                </div>
+                <!-- Event Card 2 -->
+                <div class="bg-slate-50 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                    <img src="https://picsum.photos/seed/sports/600/400" alt="Event Image" class="w-full h-56 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-semibold text-slate-900 mb-2">Champions League Final</h3>
+                        <div class="flex items-center text-sm text-slate-500 mb-1">
+                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-3.75h.008v.008H12v-.008z" />
+                            </svg>
+                            <span>November 10, 2024</span>
+                        </div>
+                        <div class="flex items-center text-sm text-slate-500 mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                            </svg>
+                            <span>National Stadium</span>
+                        </div>
+                        <p class="text-indigo-600 font-semibold text-lg mb-4">Tickets from $299</p>
+                        <a href="#" class="mt-auto w-full text-center bg-indigo-600 text-white py-2.5 px-4 rounded-lg hover:bg-indigo-700 transition duration-150 font-medium">View Tickets</a>
+                    </div>
+                </div>
+                <!-- Event Card 3 -->
+                <div class="bg-slate-50 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                    <img src="https://picsum.photos/seed/theater/600/400" alt="Event Image" class="w-full h-56 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-semibold text-slate-900 mb-2">The Phantom of The Opera</h3>
+                        <div class="flex items-center text-sm text-slate-500 mb-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-3.75h.008v.008H12v-.008z" />
+                            </svg>
+                            <span>December 1-15, 2024</span>
+                        </div>
+                        <div class="flex items-center text-sm text-slate-500 mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                            </svg>
+                            <span>Grand Theatre</span>
+                        </div>
+                        <p class="text-indigo-600 font-semibold text-lg mb-4">Tickets from $90</p>
+                        <a href="#" class="mt-auto w-full text-center bg-indigo-600 text-white py-2.5 px-4 rounded-lg hover:bg-indigo-700 transition duration-150 font-medium">View Tickets</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="about" class="py-16 bg-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-slate-900 mb-12">Simple & Secure Ticketing</h2>
+            <div class="grid md:grid-cols-2 gap-10 items-start">
+                <!-- For Buyers -->
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold text-indigo-600 mb-6 text-center sm:text-left">For Buyers</h3>
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="bg-indigo-100 text-indigo-600 rounded-full p-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-slate-800">Find Your Event</h4>
+                                <p class="text-slate-600">Easily search and discover tickets for thousands of live events.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="bg-indigo-100 text-indigo-600 rounded-full p-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-slate-800">Buy Securely</h4>
+                                <p class="text-slate-600">Purchase with confidence using our secure payment system and buyer protection.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="bg-indigo-100 text-indigo-600 rounded-full p-3">
+                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-slate-800">Enjoy the Show</h4>
+                                <p class="text-slate-600">Receive your tickets instantly and get ready for an unforgettable experience.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- For Sellers -->
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold text-purple-600 mb-6 text-center sm:text-left">For Sellers</h3>
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="bg-purple-100 text-purple-600 rounded-full p-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-slate-800">List Your Tickets</h4>
+                                <p class="text-slate-600">Easily list your spare tickets in minutes. Set your price and manage your listing.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="bg-purple-100 text-purple-600 rounded-full p-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-slate-800">Secure Transfer</h4>
+                                <p class="text-slate-600">Once sold, we handle the secure ticket transfer to the buyer.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="bg-purple-100 text-purple-600 rounded-full p-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 12m18 0v6.75A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 18.75V12m18 0v-6.75A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25v6.75m15-3.375C16.875 8.25 15.375 7.5 13.5 7.5c-1.875 0-3.375.75-3.375 1.875s1.5 1.875 3.375 1.875 3.375.75 3.375 1.875c0 1.125-1.5 1.875-3.375 1.875C11.625 15 10.125 14.25 10.125 13.125" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-slate-800">Get Paid Fast</h4>
+                                <p class="text-slate-600">Receive your payment quickly and securely after the event.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-slate-900 mb-12">Why Choose TicketHub?</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="p-6 bg-slate-50 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <div class="flex justify-center mb-4">
+                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622A11.99 11.99 0 0018.402 6a11.959 11.959 0 01-1.044-1.286A11.977 11.977 0 0012 2.75c-2.406 0-4.632.784-6.402 2.014z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-slate-800 mb-2">Secure Transactions</h3>
+                    <p class="text-slate-600 text-sm">Every transaction is protected, ensuring peace of mind for buyers and sellers.</p>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <div class="flex justify-center mb-4">
+                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h12A2.25 2.25 0 0020.25 14.25V3m-16.5 0h16.5M3.75 3c0-1.125.75-2.25 2.25-2.25h12c1.5 0 2.25 1.125 2.25 2.25M3.75 7.5h16.5M3.75 11.25h16.5M20.25 11.25v3M6.75 16.5v3M17.25 16.5v3" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-slate-800 mb-2">Wide Selection</h3>
+                    <p class="text-slate-600 text-sm">Access a vast inventory of tickets for events worldwide, from major concerts to local gatherings.</p>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <div class="flex justify-center mb-4">
+                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4">
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632zM19.5 12.75l-2.25 2.25-1.5-1.5" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-slate-800 mb-2">Verified Sellers</h3>
+                    <p class="text-slate-600 text-sm">We verify sellers to ensure authenticity and reliability of tickets listed on our platform.</p>
+                </div>
+                <div class="p-6 bg-slate-50 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                    <div class="flex justify-center mb-4">
+                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-slate-800 mb-2">24/7 Support</h3>
+                    <p class="text-slate-600 text-sm">Our dedicated support team is available around the clock to assist you with any queries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section id="sell" class="py-16 bg-indigo-600 hero-bg-pattern">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-white mb-6">Ready to Find Your Next Event or Sell Your Tickets?</h2>
+            <p class="text-indigo-200 text-lg mb-10">Join thousands of satisfied users on TicketHub. Your next great experience is just a click away.</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <a href="#events" class="w-full sm:w-auto bg-white text-indigo-600 py-3 px-8 rounded-lg font-semibold text-lg hover:bg-indigo-50 transition duration-150 shadow-md">Browse Events</a>
+                <a href="#" class="w-full sm:w-auto bg-purple-500 text-white py-3 px-8 rounded-lg font-semibold text-lg hover:bg-purple-600 transition duration-150 shadow-md">Sell Your Tickets</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h5 class="text-lg font-semibold text-white mb-4">TicketHub</h5>
+                    <p class="text-sm">Your premier marketplace for buying and selling event tickets. Experience more, worry less.</p>
+                </div>
+                <div>
+                    <h5 class="text-md font-semibold text-white mb-4">Quick Links</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="hover:text-indigo-400 transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">Contact</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">FAQs</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-md font-semibold text-white mb-4">Legal</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-indigo-400 transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-md font-semibold text-white mb-4">Follow Us</h5>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-slate-400 hover:text-indigo-400 transition">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-slate-400 hover:text-indigo-400 transition">
+                            <span class="sr-only">Twitter</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-slate-400 hover:text-indigo-400 transition">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12 1.5c2.45 0 2.74.01 3.7.05.94.04 1.58.19 2.12.42.56.23.98.54 1.41.98.42.42.73.85.97 1.41.23.54.38 1.18.42 2.12.04.96.05 1.25.05 3.7s-.01 2.74-.05 3.7c-.04.94-.19 1.58-.42 2.12-.23.56-.54.98-.97 1.41-.42.42-.85.73-1.41.97-.54.23-1.18.38-2.12.42-.96.04-1.25.05-3.7.05s-2.74-.01-3.7-.05c-.94-.04-1.58-.19-2.12-.42-.56-.23-.98-.54-1.41-.97-.42-.42-.73-.85-.97-1.41-.23-.54-.38-1.18-.42-2.12-.04-.96-.05-1.25-.05-3.7s.01-2.74.05-3.7c.04-.94.19-1.58.42-2.12.23-.56.54-.98.97-1.41.42-.42.85-.73 1.41-.97.54-.23 1.18-.38 2.12-.42C9.26 1.51 9.55 1.5 12 1.5zm0 1.5c-2.4 0-2.68.01-3.62.05-.87.04-1.38.18-1.75.33-.42.16-.72.39-.98.65-.26.26-.49.56-.65.98-.15.37-.29.88-.33 1.75-.04.94-.05 1.22-.05 3.62s.01 2.68.05 3.62c.04.87.18 1.38.33 1.75.16.42.39.72.65.98.26.26.56.49.98.65.37.15.88.29 1.75.33.94.04 1.22.05 3.62.05s2.68-.01 3.62-.05c.87-.04 1.38-.18 1.75-.33.42-.16.72-.39.98-.65.26-.26.49-.56.65-.98.15-.37.29-.88.33-1.75.04-.94.05-1.22.05-3.62s-.01-2.68-.05-3.62c-.04-.87-.18-1.38-.33-1.75-.16-.42-.39-.72-.65-.98-.26-.26-.56-.49-.98-.65-.37-.15-.88-.29-1.75-.33C14.68 3.01 14.4 3 12 3zm0 4.35c-2.56 0-4.65 2.09-4.65 4.65s2.09 4.65 4.65 4.65 4.65-2.09 4.65-4.65S14.56 7.35 12 7.35zm0 7.5c-1.57 0-2.85-1.28-2.85-2.85S10.43 9.15 12 9.15s2.85 1.28 2.85 2.85-1.28 2.85-2.85 2.85zm5.25-7.95c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10 border-t border-slate-700 pt-8 text-center text-sm">
+                <p>&copy; 2024 TicketHub. All rights reserved. Adventure awaits.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
